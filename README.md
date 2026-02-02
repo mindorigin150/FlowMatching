@@ -1,0 +1,1 @@
+This repository contains labs of MIT 6.s184：Generative AI with stochastic differential equations. It contains two parts: labs with additional unit test(written by gpt-5.2-codex), and my solutions.
