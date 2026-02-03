@@ -28,6 +28,28 @@ The unit tests have been added to provide immediate feedback on implementation c
 - Understand the expected behavior through comprehensive test cases
 - Catch common mistakes and edge cases early
 
+## Known Issues and Fixes
+
+### Lab 2: Simulator.simulate() Bug (Fixed)
+
+**Issue**: The original `Simulator.simulate()` method in `lab_two.ipynb` had a bug where it used `len(ts)` instead of `ts.shape[1]` to determine the number of integration steps.
+
+```python
+# Original buggy code (line ~336):
+for t_idx in range(len(ts) - 1):  # Bug: len(ts) returns batch_size, not num_steps
+```
+
+Since `ts` has shape `(batch_size, num_timesteps, 1)`, `len(ts)` returns `batch_size` instead of `num_timesteps`, causing the integration to only perform `batch_size - 1` steps instead of the intended `num_timesteps - 1` steps.
+
+**Fix**: Changed to use `ts.shape[1]` to correctly get the number of timesteps:
+
+```python
+# Fixed code:
+for t_idx in range(ts.shape[1] - 1):
+```
+
+This bug caused the Unit Tests for Problem 2.3 to fail with large integration errors (~7.75 distance from target), even though the `conditional_vector_field` implementation was correct. The fix has been applied to `solutions/lab_two.ipynb`.
+
 ## Course Information
 
 MIT 6.S184 focuses on generative AI techniques using stochastic differential equations, covering topics such as:
